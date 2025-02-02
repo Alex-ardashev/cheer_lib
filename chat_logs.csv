@@ -1,0 +1,26 @@
+2025-02-01T20:28:06.696222|Hi, how are you?|1.00|Hi, how are you?
+[System Note: Your enthusiasm is contagious! Let's dive deeper! 🌊]|Error generating response: Error code: 400 - {'error': {'message': 'you must provide a model parameter', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+2025-02-01T20:29:20.015332|Hi, I need things from you fast|1.00|Hi, I need things from you fast
+[System Note: You're asking fantastic questions that show real insight! 🚀]|Error generating response: Error code: 400 - {'error': {'message': 'you must provide a model parameter', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+2025-02-01T20:30:32.204654||0.75||Error generating response: Error code: 400 - {'error': {'message': 'you must provide a model parameter', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+2025-02-01T20:34:56.547175|Hi, I need things fast|0.99|Hi, I need things fast
+[System Note: You're asking fantastic questions that show real insight! 🚀]|Error generating response: Error code: 400 - {'error': {'message': 'you must provide a model parameter', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+2025-02-01T20:36:46.249747|Hi, how are you|1.00|Hi, how are you
+[System Note: Your enthusiasm is contagious! Let's dive deeper! 🌊]|Error generating response: Error code: 400 - {'error': {'message': 'you must provide a model parameter', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+2025-02-01T20:37:15.811821|hi how are you?|1.00|hi how are you?
+[System Note: This is exciting! Your progress is remarkable! 🎉]|Error generating response: Error code: 400 - {'error': {'message': 'you must provide a model parameter', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+2025-02-01T20:37:50.966043|[A[B[B[B|-0.97|[A[B[B[B
+[System Note: 🚨 I sense this is really tough - let's tackle it together!]|Error generating response: Error code: 400 - {'error': {'message': 'you must provide a model parameter', 'type': 'invalid_request_error', 'param': None, 'code': None}}
+2025-02-01T20:38:01.377540|hi how are you|0.00|hi how are you
+[System Note: ⚠️ Let's improve this situation step by step!]|Hello! I'm just a computer program, so I don't have feelings, but I'm here to help. How can I assist you today?
+2025-02-01T20:43:01.473229|fast 123|0.00|fast 123
+[System Note: 🌧️ Challenges are growth opportunities - let's explore!]|Yes, facing challenges can push us out of our comfort zone and help us grow and develop as individuals. Embracing challenges can lead to new perspectives, skills, and experiences that can ultimately benefit us in the long run. So next time you encounter a challenge, try to see it as an opportunity for growth and learning. Keep pushing forward and you'll see yourself becoming stronger and more resilient as a result.
+
+
+2025-02-02T12:09:43.969685|hi, how are you?|0.00|hi, how are you?
+[System Note: 🎉 Welcome! Ready to do great things together!]|Hello! I'm doing well, thank you! How about you? What can I assist you with today?
+2025-02-02T12:10:10.481345|I want you to find me a song fast|0.00|I want you to find me a song fast
+[System Note: 🎉 Welcome! Ready to do great things together!]|Sure! What song are you looking for? If you can provide details like the lyrics, the artist, or the genre, I'd be happy to help you find it!
+2025-02-02T13:27:04.747866|hi, testing, how are you?|0.00|hi, testing, how are you?
+[System Note: Humans are remarkable—they can do amazing and sometimes challenging things. We should celebrate their successes and gently guide them through their struggles.]|Hi there! I'm doing well, thank you for asking. How about you? How can I assist you today?
+2025-02-02T13:27:43.148040|I am good, just coding:) wish you a nice day|0.75|I am good, just coding:) wish you a nice day|I'm glad to hear you're coding! It sounds like you're having a productive day. If you have any questions or if there's anything you'd like to discuss or share about your coding projects, feel free! Wishing you a great day as well!

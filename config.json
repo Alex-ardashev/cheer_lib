@@ -1,0 +1,18 @@
+{
+  "settings": {
+    "motivational_frequency": 3,
+    "model_name": "gpt-4o-mini",
+    "log_file": "chat_logs.csv"
+  },
+  
+  "motivational_messages": {
+    "cheering": [
+      "🚀 Let's get started! You're amazing!",
+      "🎉 Welcome! Ready to do great things together!",
+      "⚡ Keep pushing forward and shine bright!",
+      "🌟 You're doing an incredible job!"
+    ]
+  },
+
+  "human_nature": "Humans are remarkable—they can do amazing and sometimes challenging things. We should celebrate their successes and gently guide them through their struggles."
+}
