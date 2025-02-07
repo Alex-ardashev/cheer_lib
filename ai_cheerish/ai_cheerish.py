@@ -1,10 +1,10 @@
 import json
 import random
-from openai import OpenAI
 
 import csv
 import os
 from datetime import datetime
+
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -85,7 +85,7 @@ class AICheerLib:
         except Exception as e:
             ai_response = f"Error generating response: {str(e)}"
         
-        # 3) Log the interaction details (including sentiment analysis for logging)
+        # 3) Log the interaction details
         timestamp = datetime.now().isoformat()
         self.log_interaction(
             timestamp=timestamp,

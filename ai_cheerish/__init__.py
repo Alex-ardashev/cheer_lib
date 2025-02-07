@@ -1,1 +1,1 @@
-from .ai_lib import AICheerLib
+from .ai_cheerish import AICheerLib

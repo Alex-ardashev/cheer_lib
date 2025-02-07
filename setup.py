@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="ai-cheerish",  # This is the name users will pip install
+    name="ai-cheerish",  # Updated package name for PyPI
     version="0.1.0",
     author="Your Name",
     author_email="your.email@example.com",
