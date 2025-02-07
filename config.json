@@ -1,8 +1,6 @@
 {
   "settings": {
-    "motivational_frequency": 3,
-    "model_name": "gpt-4o-mini",
-    "log_file": "chat_logs.csv"
+    "motivational_frequency": 3
   },
   
   "motivational_messages": {

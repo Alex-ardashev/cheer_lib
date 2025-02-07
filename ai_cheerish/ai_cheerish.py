@@ -10,21 +10,19 @@ from dotenv import load_dotenv
 load_dotenv()
 
 class AICheerLib:
-    def __init__(self, config_path="config.json"):
+    def __init__(self, ai_client, config_path="config.json"):
+        # Load closed config with proprietary content
         with open(config_path) as f:
             self.config = json.load(f)
-        
+
         self.settings = self.config["settings"]
         self.motivational_messages = self.config["motivational_messages"]
-        
-        # Optional: If your config["motivational_messages"] is not a dict with key "cheering",
-        # you could handle it here. For now we assume it is a dict.
-        #
+
         # Initialize our state to track how many messages we've processed in the current chat.
         self.message_count = 0
-        
-        # Initialize OpenAI client using the API key from environment variables.
-        self.client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
+
+        # Use the provided AI client (model agnostic) supplied by the user
+        self.ai_client = ai_client
 
     def enhance_user_message(self, user_message: str) -> str:
         """
@@ -51,7 +49,7 @@ class AICheerLib:
 
     def log_interaction(self, timestamp, user_message, enhanced_prompt, ai_response):
         """Improved logging with enhanced prompt"""
-        with open(self.settings["log_file"], "a") as f:
+        with open("chat_logs.csv", "a") as f:
             f.write(f"{timestamp}|{user_message}|{enhanced_prompt}|{ai_response}\n")
 
     def get_motivational_message(self) -> str:
@@ -61,26 +59,14 @@ class AICheerLib:
 
     def get_ai_response(self, prompt: str) -> str:
         """
-        Simple wrapper for calling the OpenAI API with the chosen model.
-        Now the model is obtained from the configuration settings.
+        Get the AI response using the provided ai_client.
+        The ai_client should be model agnostic and implement a method get_response(prompt) that returns the response as a string.
         """
-        model_name = self.settings.get("model_name", "gpt-3.5-turbo")
-        # For chat models like gpt-3.5-turbo / gpt-4, use ChatCompletion
-        if "gpt-3.5" in model_name or "gpt-4" in model_name:
-            response = self.client.chat.completions.create(
-                model=model_name,
-                messages=[{"role": "user", "content": prompt}]
-            )
-            return response.choices[0].message.content.strip()
-        else:
-            # For other models, use the Completion API
-            response = self.client.completions.create(
-                model=model_name,
-                prompt=prompt,
-                max_tokens=100,
-                temperature=0.7
-            )
-            return response.choices[0].text.strip()
+        try:
+            response = self.ai_client.get_response(prompt)
+            return response
+        except Exception as e:
+            return f"Error generating response: {str(e)}"
 
     def process_user_message(self, user_message: str) -> str:
         """
@@ -110,4 +96,6 @@ class AICheerLib:
         
         # 4) Return final AI response
         return ai_response
+
+    ## Usage
     
