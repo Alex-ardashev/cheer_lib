@@ -6,7 +6,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="ai_cheerish",  # Updated package name for PyPI
-    # version="0.1.6",
+    version="0.1.7",
     author="Aleksei Ardashev",
     author_email="your.email@example.com",
     description="Enhance AI model performance by injecting inspirational words into prompts.",
