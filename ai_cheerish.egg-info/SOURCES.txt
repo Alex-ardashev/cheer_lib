@@ -1,9 +1,0 @@
-README.md
-setup.py
-ai_cheerish/__init__.py
-ai_cheerish/ai_cheerish.py
-ai_cheerish.egg-info/PKG-INFO
-ai_cheerish.egg-info/SOURCES.txt
-ai_cheerish.egg-info/dependency_links.txt
-ai_cheerish.egg-info/requires.txt
-ai_cheerish.egg-info/top_level.txt
