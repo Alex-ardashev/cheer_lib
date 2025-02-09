@@ -66,16 +66,16 @@ class AICheerLib:
     def get_ai_response(self, user_message: str, system_note: str = "") -> str:
         """
         Get the AI response using the provided ai_client.
-        The ai_client should be model agnostic and implement a method get_response(prompt) that returns the response as a string.
+        Instead of sending a separate system message, if a system note exists,
+        it is prepended to the user's message with a label.
         """
         try:
-            # Prepare the messages for the AI model
-            messages = [
-                {"role": "system", "content": system_note} if system_note else None,
-                {"role": "user", "content": user_message},
-            ]
-            # Filter out None values (if no system note is provided)
-            messages = [msg for msg in messages if msg is not None]
+            if system_note:
+                # Prepend the system note to the user's message.
+                user_message = f"System Note: {system_note}.\n{user_message}"
+            
+            # Now send only a single message with role 'user'
+            messages = [{"role": "user", "content": user_message}]
             
             # Get the AI response
             response = self.ai_client.get_response(messages)
