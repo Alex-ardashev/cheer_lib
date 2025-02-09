@@ -1,1 +1,3 @@
-from .ai_cheerish import AICheerLib
+from .ai_cheerish import Cheerish
+
+__all__ = ['Cheerish']

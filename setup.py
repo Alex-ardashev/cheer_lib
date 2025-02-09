@@ -6,7 +6,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="ai_cheerish",  # Updated package name for PyPI
-    version="0.2.0",
+    version="0.2.1",
     author="Aleksei Ardashev",
     author_email="alek-ardashev@yandex.ru",
     description="Enhance your AI chatbot by seamlessly injecting motivational messages and logging interactions.",
