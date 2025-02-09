@@ -9,7 +9,7 @@ setuptools.setup(
     version="0.1.9",
     author="Aleksei Ardashev",
     author_email="your.email@example.com",
-    description="Enhance AI model performance by injecting inspirational words into prompts.",
+    description="Enhance your AI chatbot by seamlessly injecting motivational messages and logging interactions.",
     # long_description=long_description,
     # long_description_content_type="text/markdown",
     url="https://github.com/Alex-ardashev/cheer_lib",  # Replace with your repo URL
