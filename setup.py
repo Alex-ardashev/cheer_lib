@@ -12,7 +12,7 @@ setuptools.setup(
     description="Enhance AI model performance by injecting inspirational words into prompts.",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/yourusername/ai-cheerish",  # Replace with your repo URL
+    url="https://github.com/Alex-ardashev/cheer_lib",  # Replace with your repo URL
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
