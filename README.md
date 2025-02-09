@@ -9,6 +9,7 @@ Install with pip:
 
 ## Usage
 
+Note: Before using, copy config.example.json to config.json and update it with your private configuration. The config.json file is not tracked by version control.
 
 from ai_cheerish import AICheerLib
 
