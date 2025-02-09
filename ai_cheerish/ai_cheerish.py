@@ -6,108 +6,78 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-class AICheerLib:
+class Cheerish:
     def __init__(self, ai_client, config_path="config.json"):
-        # Try to load the private configuration from config.json
+        """
+        Initialize Cheerish with an AI client and an optional configuration.
+        If config_path is not found, the default shipped configuration is used.
+        """
         try:
-            with open(config_path) as f:
+            with open(config_path, "r", encoding="utf-8") as f:
                 self.config = json.load(f)
         except FileNotFoundError:
-            # If config.json is not found, fall back to the default configuration shipped with the package
             try:
                 from importlib import resources
                 self.config = json.load(resources.open_text("ai_cheerish", "config.example.json"))
             except Exception as e:
-                raise FileNotFoundError("Neither the private config.json nor the default config.example.json could be loaded.") from e
+                raise FileNotFoundError(
+                    "Neither the private config.json nor the default config.example.json could be loaded."
+                ) from e
 
-        self.settings = self.config["settings"]
-        self.motivational_messages = self.config["motivational_messages"]
-
-        # Initialize our state to track how many messages we've processed in the current chat.
+        self.settings = self.config.get("settings", {})
+        self.motivational_messages = self.config.get("motivational_messages", {})
+        self.human_nature = self.config.get("human_nature", "")
         self.message_count = 0
-
-        # Use the provided AI client (model agnostic) supplied by the user
         self.ai_client = ai_client
 
-    def enhance_user_message(self, user_message: str) -> tuple:
+    def enhance_message(self, user_message: str) -> tuple:
         """
-        Enhances the user's message with additional context based on the message count:
-         - For the first message in a chat, appends the human_nature text.
-         - For every third message (using motivational_frequency from settings) adds a cheering message.
-         - For all other messages, returns the message as-is.
-        Returns a tuple: (user_message, system_note)
+        Enhances the user's message by optionally adding a system note.
+         - For the first message, prepends the "human nature" note.
+         - For every nth message (defined by `motivational_frequency`), prepends a motivational note.
+        Returns a tuple of (enhanced_message, system_note).
         """
         system_note = ""
-        # First message: append "human_nature" from config.
-        if self.message_count == 0:
-            human_nature_text = self.config.get("human_nature", "")
-            if human_nature_text:
-                system_note = human_nature_text
-        # Every third message (ex: 3rd, 6th, ...) add a cheering note.
+        if self.message_count == 0 and self.human_nature:
+            system_note = self.human_nature
         elif (self.message_count + 1) % self.settings.get("motivational_frequency", 3) == 0:
             system_note = random.choice(
                 self.motivational_messages.get("cheering", ["Keep going!"])
             )
-        
         self.message_count += 1
-        return user_message, system_note
 
-    def log_interaction(self, timestamp, user_message, enhanced_prompt, ai_response):
-        """Improved logging with enhanced prompt"""
+        if system_note:
+            enhanced_message = f"System Note: {system_note}\n{user_message}"
+        else:
+            enhanced_message = user_message
+
+        return enhanced_message, system_note
+
+    def log_interaction(self, user_message: str, system_note: str, ai_response: str):
+        """Logs the interaction details with a timestamp to chat_logs.csv."""
+        timestamp = datetime.now().isoformat()
         with open("chat_logs.csv", "a", newline="", encoding="utf-8") as f:
             writer = csv.writer(f)
-            writer.writerow([timestamp, user_message, enhanced_prompt, ai_response])
+            writer.writerow([timestamp, user_message, system_note, ai_response])
 
-    def get_motivational_message(self) -> str:
-        """Return a random cheering message from the configuration."""
-        messages = self.config.get("motivational_messages", {})
-        return random.choice(messages.get("cheering", ["Keep going!"]))
-
-    def get_ai_response(self, user_message: str, system_note: str = "") -> str:
+    def __call__(self, user_message: str) -> str:
         """
-        Get the AI response using the provided ai_client.
-        Instead of sending a separate system message, if a system note exists,
-        it is prepended to the user's message with a label.
+        Enables the Cheerish instance to be called like a function.
+        It enhances the user message, retrieves the AI response using the provided ai_client,
+        logs the transaction, and then returns the response.
         """
+        enhanced_message, sys_note = self.enhance_message(user_message)
         try:
-            if system_note:
-                # Prepend the system note to the user's message.
-                user_message = f"System Note: {system_note}.\n{user_message}"
-            
-            # Now send only a single message with role 'user'
-            messages = [{"role": "user", "content": user_message}]
-            
-            # Get the AI response
-            response = self.ai_client.get_response(messages)
-            return response
+            # If ai_client is a callable (like a function), call it directly.
+            if callable(self.ai_client):
+                response = self.ai_client([{"role": "user", "content": enhanced_message}])
+            # Otherwise, assume it has a get_response method.
+            elif hasattr(self.ai_client, "get_response"):
+                response = self.ai_client.get_response([{"role": "user", "content": enhanced_message}])
+            else:
+                raise ValueError("Provided AI client must be a callable or have a 'get_response' method.")
         except Exception as e:
-            return f"Error generating response: {str(e)}"
+            response = f"Error generating response: {str(e)}"
 
-    def process_user_message(self, user_message: str) -> str:
-        """
-        Main interface function:
-         1) Enhances the user message (adding human_nature on the first message or a motivational message every third message)
-         2) Gets AI response from the model
-         3) Logs the conversation details
-         4) Returns the final answer
-        """
-        # 1) Enhance prompt with system notes if applicable.
-        user_message, system_note = self.enhance_user_message(user_message)
-        
-        # 2) Get AI response using the enhanced prompt
-        try:
-            ai_response = self.get_ai_response(user_message, system_note)
-        except Exception as e:
-            ai_response = f"Error generating response: {str(e)}"
-        
-        # 3) Log the interaction details
-        timestamp = datetime.now().isoformat()
-        self.log_interaction(
-            timestamp=timestamp,
-            user_message=user_message,
-            enhanced_prompt=system_note,  # Log the system note separately
-            ai_response=ai_response
-        )
-        
-        # 4) Return final AI response
-        return ai_response
+        self.log_interaction(user_message, sys_note, response)
+        return response

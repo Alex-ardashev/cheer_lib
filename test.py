@@ -1,10 +1,10 @@
-from ai_cheerish import AICheerLib
+from ai_cheerish import Cheerish
 
-class DummyAIClient:
-    def get_response(self, prompt):
-        return "Dummy response: " + prompt
+def dummy_get_response(messages):
+    return "Dummy response: " + messages[0]["content"]
 
-ai_client = DummyAIClient()
-cheer_ai = AICheerLib(ai_client)
-response = cheer_ai.process_user_message("Hello!")
+# Pass the function directly instead of creating a custom class instance.
+cheerish = Cheerish(dummy_get_response)
+
+response = cheerish("Hello, how are you?")
 print(response)

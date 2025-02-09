@@ -14,26 +14,19 @@ Install the package via pip:
 
 pip install ai-cheerish
 
-## Configuration
-
-Before you begin, copy the provided `config.example.json` file into your project root as `config.json` and adjust the settings as needed. This file is excluded from version control, so it's safe to store environment-specific configurations here.
-
 ## Usage Example
 
-Below is a simple example showing how to integrate AI Cheerish with a dummy AI client:
+from ai_cheerish import Cheerish
 
-from ai_cheerish import AICheerLib
-class DummyAIClient:
-def get_response(self, messages):
-# For demonstration purposes, simply echo the prompt. Replace with your AI service integration.
-return "Dummy response: " + messages[0]["content"]
-Initialize your AI client
-ai_client = DummyAIClient()
-Create an instance of AICheerLib with your client
-cheer_ai = AICheerLib(ai_client)
-Process a user message to receive an enhanced AI response
-response = cheer_ai.process_user_message("Hello, how are you?")
+def dummy_get_response(messages):
+    return "Dummy response: " + messages[0]["content"]
+
+# Pass the function directly instead of creating a class instance.
+cheerish = Cheerish(dummy_get_response)
+
+response = cheerish("Hello, how are you?")
 print(response)
+
 
 
 ## How It Works

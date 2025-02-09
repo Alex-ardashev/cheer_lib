@@ -6,12 +6,12 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="ai_cheerish",  # Updated package name for PyPI
-    version="0.1.9",
+    version="0.2.0",
     author="Aleksei Ardashev",
-    author_email="your.email@example.com",
+    author_email="alek-ardashev@yandex.ru",
     description="Enhance your AI chatbot by seamlessly injecting motivational messages and logging interactions.",
-    # long_description=long_description,
-    # long_description_content_type="text/markdown",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
     url="https://github.com/Alex-ardashev/cheer_lib",  # Replace with your repo URL
     packages=setuptools.find_packages(),
     classifiers=[
