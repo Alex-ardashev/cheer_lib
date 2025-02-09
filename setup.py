@@ -26,4 +26,7 @@ setuptools.setup(
         # List additional dependencies here
     ],
     include_package_data=True,  # Tells setuptools to include files specified in MANIFEST.in
+    package_data={
+        "ai_cheerish": ["config.example.json"]
+    },
 ) 

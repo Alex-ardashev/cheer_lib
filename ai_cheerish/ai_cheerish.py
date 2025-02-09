@@ -11,9 +11,17 @@ load_dotenv()
 
 class AICheerLib:
     def __init__(self, ai_client, config_path="config.json"):
-        # Load closed config with proprietary content
-        with open(config_path) as f:
-            self.config = json.load(f)
+        # Try to load the private configuration from config.json
+        try:
+            with open(config_path) as f:
+                self.config = json.load(f)
+        except FileNotFoundError:
+            # If config.json is not found, fall back to the default configuration shipped with the package
+            try:
+                from importlib import resources
+                self.config = json.load(resources.open_text("ai_cheerish", "config.example.json"))
+            except Exception as e:
+                raise FileNotFoundError("Neither the private config.json nor the default config.example.json could be loaded.") from e
 
         self.settings = self.config["settings"]
         self.motivational_messages = self.config["motivational_messages"]
