@@ -1,44 +1,124 @@
 # AI Cheerish
 
-AI Cheerish is a lightweight Python library designed to enhance your AI chatbot's performance by injecting motivational and inspirational messages into conversation prompts. It integrates seamlessly with your existing AI client and automatically logs interactions for improved debugging and analysis.
+A lightweight Python library that enhances AI interactions by seamlessly injecting motivational messages and providing optional interaction logging.
 
-## Key Features
+## Features
 
-- **Prompt Enhancement:** Automatically inject a custom "human nature" message on the first interaction and add motivational notes periodically (every nth message, as set in your configuration).
-- **Easy Integration:** Works with any AI client that follows a conversational API pattern.
-- **Logging:** Records conversation details including timestamps, original messages, enhanced prompts, and AI responses in a CSV file.
+- 🎯 Enhances AI interactions with motivational messages
+- 🔄 Configurable frequency of motivational messages
+- 📝 Optional logging of interactions
+- 🔌 Works with any AI client that follows a simple interface
 
 ## Installation
 
-Install the package via pip:
-
+```bash
 pip install ai-cheerish
+```
 
-## Usage Example
+Or install from source:
 
+```bash
+git clone https://github.com/yourusername/ai-cheerish.git
+cd ai-cheerish
+pip install -e .
+```
+
+## Quick Start
+
+```python
 from ai_cheerish import Cheerish
 
-def dummy_get_response(messages):
-    return "Dummy response: " + messages[0]["content"]
+# Define a simple AI client function
+def my_ai_client(messages):
+    # This would typically call an AI API
+    return "This is a response from the AI"
 
-# Pass the function directly instead of creating a class instance.
-cheerish = Cheerish(dummy_get_response)
+# Create a Cheerish instance with your AI client
+cheerish = Cheerish(my_ai_client)
 
-response = cheerish("Hello, how are you?")
+# Use it to get responses
+response = cheerish("Hello, AI!")
 print(response)
+```
 
+## Configuration
 
+AI Cheerish can be configured using a JSON file. Create a `config.json` file or use the provided example:
 
-## How It Works
+```json
+{
+  "settings": {
+    "motivational_frequency": 3,
+    "enable_logging": false,
+    "log_file": "logs/chat_logs.csv"
+  },
+  
+  "motivational_messages": {
+    "cheering": [
+      "Let's get started! You're amazing!",
+      "Welcome! Ready to do great things together!",
+      "Keep pushing forward and shine bright!",
+      "You're doing an incredible job!"
+    ]
+  },
 
-1. **Message Enhancement:** 
-   - On the first user message, the library can prepend a configured "human_nature" note.
-   - Every nth message (by default, every 3rd message—modifiable via the `motivational_frequency` setting) gets an additional motivational note injected.
-2. **Single API Call:** 
-   - Instead of sending separate system and user messages, the system note is prepended directly to the user's message.
-3. **Logging:** 
-   - Each interaction is logged in a CSV file (`chat_logs.csv`) for later review or debugging.
+  "human_nature": "Humans are remarkable—they can do amazing and sometimes challenging things. We should celebrate their successes and gently guide them through their struggles."
+}
+```
+
+### Configuration Options
+
+- `settings.motivational_frequency`: How often to inject motivational messages (every N messages)
+- `settings.enable_logging`: Whether to log interactions to a file
+- `settings.log_file`: Path to the log file
+- `motivational_messages.cheering`: List of motivational messages to randomly select from
+- `human_nature`: A message to include with the first interaction
+
+## Using with Different AI Clients
+
+AI Cheerish works with any AI client that either:
+
+1. Is a callable function that accepts a messages array
+2. Has a `get_response` method that accepts a messages array
+
+### Example with OpenAI
+
+```python
+import openai
+from ai_cheerish import Cheerish
+
+# Set up your OpenAI client
+openai.api_key = "your-api-key"  # Better to use environment variables
+
+def openai_client(messages):
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=messages
+    )
+    return response.choices[0].message.content
+
+# Create a Cheerish instance with your OpenAI client
+cheerish = Cheerish(openai_client)
+
+# Use it to get responses
+response = cheerish("Tell me a joke")
+print(response)
+```
+
+## Logging
+
+When logging is enabled, AI Cheerish will record all interactions in a CSV file with the following columns:
+- Timestamp
+- User message
+- System note (motivational message)
+- AI response
+
+To enable logging, set `enable_logging` to `true` in your config file.
 
 ## License
 
-This project is licensed under the MIT License.
+MIT
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.

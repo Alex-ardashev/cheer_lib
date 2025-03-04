@@ -1,6 +1,8 @@
 {
   "settings": {
-    "motivational_frequency": 3
+    "motivational_frequency": 3,
+    "enable_logging": false,
+    "log_file": "logs/chat_logs.csv"
   },
   
   "motivational_messages": {
